@@ -4,7 +4,7 @@ var morgan        = require("morgan");
 var mongoose      = require("mongoose");
 var bodyParser    = require('body-parser');
 var app           = express();
-var apiRoutes     = require('./routes/api');
+var apiRoutes     = require('./app/routes/api')(router);
 
 app.use(express.json());
 app.use(morgan("dev"));
