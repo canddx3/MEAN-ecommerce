@@ -1,6 +1,7 @@
+const express         = require('express');
+const router          = express.Router();
 const User            = require('../models/user');
 const Mountainbikes   = require('../models/mountainbikes');
-const router          = express.Router();
 
 router.post('/user', function(req, res) {
   const user = new User();
