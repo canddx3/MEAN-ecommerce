@@ -1,16 +1,15 @@
-var express = require("express");
-var port = process.env.PORT || 8080;
-var morgan = require("morgan");
-var mongoose = require("mongoose");
-var bodyParser = require("body-parser");
-var app = express();
-var router = express.Router();
-var apiRoutes = require("./routes/api")(router);
+const express = require("express");
+const port = process.env.PORT || 8080;
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const app = express();
+const router = express.Router();
+const apiRoutes = require("./App/routes/api")(router);
 
 app.use(express.json());
 app.use(morgan("dev"));
 app.use("/api", apiRoutes);
-mongoose.set("useNewUrlParser", true);
 
 const db = mongoose
   .connect(

@@ -3,7 +3,7 @@ const Mountainbikes   = require('../models/mountainbikes');
 const router          = express.Router();
 
 router.post('/user', function(req, res) {
-  var user = new User();
+  const user = new User();
   user.firstname = req.body.firstname;
   user.lastname = req.body.lastname; 
   user.email = req.body.email; 
