@@ -27,7 +27,7 @@ const db = mongoose
   });
 
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/app/public/views/index.html'));
+  res.sendFile(path.join(__dirname + '/public/views/index.html'));
 })
 
 app.listen(port, function () {
