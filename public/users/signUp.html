@@ -1,0 +1,21 @@
+<div class 'page-header'>
+    <h1>Signup</h1> 
+</div>
+
+<form ng-submit='signUp.signUpUser(signUpData);'>
+    <label>FirstName:</label>
+    <input class="form-control" type="text" name="firstname" placeholder="please enter firstname" ng-Model="signup.signUpData.firstname">
+    <label>LastName:</label>
+    <input class="form-control" type="text" name="lastname" placeholder="please enter lastname" ng-Model="signup.signUpData.lastname">
+    <label>Email:</label>
+    <input class="form-control" type="email" name="email" placeholder="please enter email" ng-Model="signup.signUpData.email">
+    <label>Address:</label>
+    <input class="form-control" type="text" name="address" placeholder="please enter address" ng-Model="signup.signUpData.address">
+    <label>Phone:</label>
+    <input class="form-control" type="number" name="phone" placeholder="please enter phone" ng-Model="signup.signUpData.phone">
+    <label>UserName:</label>
+    <input class="form-control" type="text" name="username" placeholder="please enter username" ng-Model="signup.signUpData.username">
+    <label>Password:</label>
+    <input class="form-control" type="password" name="password" placeholder="please enter password" ng-Model="signup.signUpData.password">
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

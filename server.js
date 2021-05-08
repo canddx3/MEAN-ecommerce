@@ -5,13 +5,13 @@ const mongoose    = require("mongoose");
 const bodyParser  = require("body-parser");
 const app         = express();
 const router      = express.Router();
-// const apiRoutes   = require('./routes/api')(router);
+const apiRoutes   = require('./app/routes/api');
 const path        = require('path');
 
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static(__dirname + '/public'));
-// app.use("/api", apiRoutes);
+app.use("/api", apiRoutes);
 
 const db = mongoose
   .connect(
