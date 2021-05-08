@@ -22,8 +22,13 @@
   },
   "homepage": "https://github.com/canddx3/MEAN-ecommerce#readme",
   "dependencies": {
+    "angular": "^1.8.2",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.6.0",
     "express": "^4.17.1",
-    "mongoose": "^5.12.5",
+    "jquery": "^3.6.0",
+    "mongoose": "^5.2.8",
     "morgan": "^1.10.0"
   }
 }
