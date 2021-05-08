@@ -5,7 +5,7 @@ const mongoose    = require("mongoose");
 const bodyParser  = require("body-parser");
 const app         = express();
 const router      = express.Router();
-const apiRoutes   = require('./app/routes/api');
+const apiRoutes   = require('./app/routes/api')(router);
 const path        = require('path');
 
 app.use(express.json());
