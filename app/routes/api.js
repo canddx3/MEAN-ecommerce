@@ -3,31 +3,34 @@ const router          = express.Router();
 const User            = require('../models/user');
 const Mountainbikes   = require('../models/mountainbikes');
 
-router.post('/user', function(req, res) {
-  const user = new User();
-  user.firstname = req.body.firstname;
-  user.lastname = req.body.lastname; 
-  user.email = req.body.email; 
-  user.address = req.body.address; 
-  user.phone = req.body.phone;
-  user.username = req.body.username;
-  user.password = req.body.password;
-    if (req.body.username == null || 
-        req.body.username == "" ||
-        req.body.password == null ||
-        req.body.password == "") {
-        res.send('Username and password were provided');
-    } else {
-    user.save(function(err) {
-        if(err) {
-          res.send('Username or Email already exists!');
-        }else {
-          res.send('user created!');
-        }
-    });    
+module.exports = function(router) {
+  // http://localhost:8080/api/user
+  router.post('/user', function(req, res) {
+    const user = new User();
+      user.firstname = req.body.firstname;
+      user.lastname = req.body.lastname; 
+      user.email = req.body.email; 
+      user.address = req.body.address; 
+      user.phone = req.body.phone;
+      user.username = req.body.username;
+      user.password = req.body.password;
+        if (req.body.username == null || 
+            req.body.username == "" ||
+            req.body.password == null ||
+            req.body.password == "") {
+            res.send('Username and password were provided');
+       } else {
+          user.save(function(err) {
+              if(err) {
+                res.send('Username or Email already exists!');
+              }else {
+                res.send('user created!');
+              }
+          });    
+       }
+      });
+    return router;
   }
-});
-module.exports = router;
   // app.post("/user", async function (req, res) {
   //       user.firstname = userData.firstname
   //       user.lastname  = userData.lastname
