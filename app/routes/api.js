@@ -18,13 +18,13 @@ module.exports = function(router) {
             req.body.username == "" ||
             req.body.password == null ||
             req.body.password == "") {
-            res.send('Username and password were provided');
-       } else {
+            res.json({ success: false, message: 'Must enter all fields'});
+          } else {
           user.save(function(err) {
               if(err) {
-                res.send('Username or Email already exists!');
+                res.json({ success: false, message: 'Username or Email already exists!'});
               }else {
-                res.send('user created!');
+                res.json({ success: true, message: 'user created!'});
               }
           });    
        }

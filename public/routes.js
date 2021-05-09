@@ -1,4 +1,3 @@
-console.log('TESTING ROUTES')
 angular.module('appRoutes', ['ngRoute'])
 
 .config(function($routeProvider, $locationProvider) {

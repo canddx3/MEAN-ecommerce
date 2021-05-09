@@ -19,3 +19,15 @@
     <input class="form-control" type="password" name="password" placeholder="please enter password" ng-Model="signUp.signUpData.password">
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
+
+<div class='jumbotron text-center' ng-show='signUp.loading'>
+    <span class='glyphicon glyphicon-repeat spinner'></span>
+    <p>Loading...</p>
+</div>
+<div class='row show-hide-message' ng-show='signUp.successMessage'>
+    <div class='alert alert-success'>{{signUp.successMessage}}</div>
+</div>
+
+<div class='row show-hide-message' ng-show='signUp.errorMessage'>
+    <div class='alert alert-danger'>{{signUp.errorMessage}}</div>
+</div>

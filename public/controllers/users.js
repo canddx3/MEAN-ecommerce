@@ -1,17 +1,28 @@
 angular.module('userCtrl', [])
 
-.controller('signUpCtrl',function($http) {
-    this.signUpUser = function(signUpData) {
-        console.log('form submitted');
-        console.log(this.signUpData);
-        $http.post('/api/user', this.signUpData);
+.controller('signUpCtrl',function($http, $location) {
+    const app = this;
+    app.signUpUser = function(signUpData) {
+        app.loading = true;
+        app.errorMessage=false;
+        
+        $http.post('/api/user', app.signUpData).then(function(data) {
+            app.errorMessage = false;
+            if (data.data.success) {
+                app.loading = false;
+                app.successMessage = data.data.message;
+                $location.path('/')
+            } else {
+                app.loading = false;
+                app.errorMessage = data.data.message;
+            }
+        })
     };
 })
 
 .controller('loginCtrl', function($http) {
     this.loginUser = function(loginData) {
         console.log('Login successful');
-        console.log(this.loginData);
         $http.get('/api/user', this.loginData);
     };
 });
