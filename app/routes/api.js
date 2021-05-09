@@ -2,6 +2,8 @@ const express         = require('express');
 const router          = express.Router();
 const User            = require('../models/user');
 const Mountainbikes   = require('../models/mountainbikes');
+const jwt             = require('jsonwebtoken');
+const secret          = 'password';
 
 module.exports = function(router) {
   // http://localhost:8080/api/user
@@ -43,6 +45,7 @@ module.exports = function(router) {
             if(!user) {
               res.json({ success: false, message: 'User doesnt exist'});
             } else if (user) {
+              if(req.body.password) {}
                 const validPassword = user.comparePassword(req.body.password);
               if (!validPassword) {
                 res.json({ success: false, message: 'password invalid' });
@@ -55,13 +58,6 @@ module.exports = function(router) {
     return router;
   }
   // app.post("/user", async function (req, res) {
-  //       user.firstname = userData.firstname
-  //       user.lastname  = userData.lastname
-  //       user.email  = userData.email
-  //       user.address  = userData.address
-  //       user.phone = userData.phone
-  //       user.username = userData.username
-  //       user.password = userData.password
   //   const userData = req.body;
   //   const user = new User(userData);
   //   try {

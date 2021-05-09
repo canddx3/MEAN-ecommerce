@@ -1,20 +1,20 @@
-angular.module('userController', ['userServices'])
+angular.module('loginController', ['authServices'])
 
-.controller('signUpCtrl',function($http, $location, $timeout, User) {
+.controller('loginCtrl', function(Auth, $timeout, $location) {
     const app = this;
 
-    app.signUpUser = function(signUpData) {
+    app.loginUser = function(loginData) {
         app.loading = true;
         app.errorMessage=false;
         
-        User.create(app.signUpData).then(function(data) {
+        Auth.login(app.loginData).then(function(data) {
             if (data.data.success) {
                 app.loading = false;
                 // creates successful messages
                 app.successMessage = data.data.message;
                 // redirect to home page after delay
                 $timeout(function() {
-                    $location.path('/');
+                    $location.path('/profile');
                 }, 2000);
             } else {
                 //creates error message
@@ -23,4 +23,6 @@ angular.module('userController', ['userServices'])
             }
         })
     };
-});
+})
+
+

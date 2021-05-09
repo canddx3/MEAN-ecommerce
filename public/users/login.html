@@ -9,3 +9,15 @@
     <input class="form-control" type="password" name="password" placeholder="please enter password" ng-Model="login.loginData.password">
     <button class="btn btn-primary">Login</button>
 </form>
+
+<div class='jumbotron text-center' ng-show='login.loading'>
+    <span class='glyphicon glyphicon-repeat spinner'></span>
+    <p>Loading...</p>
+</div>
+<div class='row show-hide-message' ng-show='login.successMessage'>
+    <div class='alert alert-success'>{{login.successMessage}}</div>
+</div>
+
+<div class='row show-hide-message' ng-show='login.errorMessage'>
+    <div class='alert alert-danger'>{{login.errorMessage}}</div>
+</div>
