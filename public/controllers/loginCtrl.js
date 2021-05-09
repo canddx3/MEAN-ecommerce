@@ -3,6 +3,15 @@ angular.module('loginController', ['authServices'])
 .controller('loginCtrl', function(Auth, $timeout, $location) {
     const app = this;
 
+    // if(Auth.isLoggedIn()) {
+    //     console.log('Success');
+    //     Auth.getUser().then(function (data) {
+    //         console.log(data);
+    //       });
+    // } else {
+    //     console.log('Failure')
+    // }
+
     app.loginUser = function(loginData) {
         app.loading = true;
         app.errorMessage=false;
@@ -12,7 +21,7 @@ angular.module('loginController', ['authServices'])
                 app.loading = false;
                 // creates successful messages
                 app.successMessage = data.data.message;
-                // redirect to home page after delay
+                // redirect to profile page after delay
                 $timeout(function() {
                     $location.path('/profile');
                 }, 2000);
@@ -23,6 +32,13 @@ angular.module('loginController', ['authServices'])
             }
         })
     };
-})
+
+    // app.logout = function() {
+    //     Auth.logout();
+    //     $timeout(function() {
+    //         $location.path('/');
+    //     }, 2000);
+    // };
+});
 
 

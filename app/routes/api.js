@@ -31,32 +31,57 @@ module.exports = function(router) {
               }
           });    
        }
-      });
+    });
 
-      // http://localhost:8080/api/login
-      // User Login
-      router.post('/login', function(req, res) {
-        User
+    // http://localhost:8080/api/login
+    // User Login
+    router.post('/login', function(req, res) {
+      User
         .findOne({ username: req.body.username })
         .select('firstname lastname email address phone username password')
         .exec(function(err, user) {
           if(err) throw err;
 
-            if(!user) {
-              res.json({ success: false, message: 'User doesnt exist'});
-            } else if (user) {
-              if(req.body.password) {}
-                const validPassword = user.comparePassword(req.body.password);
-              if (!validPassword) {
-                res.json({ success: false, message: 'password invalid' });
-              } else {
-                res.json({ success: true, message: 'User authenticated!'});
-              }
-            }
+          if(!user) {
+          res.json({ success: false, message: 'User doesnt exist'});
+          } else if (user) {
+          
+          if(req.body.password) {
+            const validPassword = user.comparePassword(req.body.password);
+          
+          if (!validPassword) {
+            res.json({ success: false, message: 'password invalid' });
+          } else {
+           var token = jwt.sign({ firstname: user.firstname, lastname: user.lastname, email: user.email, address: user.address, phone: user.phone }, secret, { expiresIn: '24h'});
+           res.json({ success: true, message: 'User authenticated!', token: token });
+          }
+        }
+      }
+      });
+    });
+
+    router.use(function(req, res, next) {
+      const token = req.body.token || req.body.query || req.headers['x-access-token'];
+      if(token) {
+        jwt.verify(token, secret, function(err, decoded) {
+          if (err) {
+          res.json({ success: false, message: 'Token invalid'});
+          } else {
+            req.decoded = decoded;
+            next();
+          }
         });
-     });
-    return router;
-  }
+      } else {
+        res.json({ success: false, message: 'No token provided'});
+      }
+    })
+
+    router.post('/profile', function(req, res) {
+      res.send(req.decoded);
+    });
+
+  return router;
+}
   // app.post("/user", async function (req, res) {
   //   const userData = req.body;
   //   const user = new User(userData);
