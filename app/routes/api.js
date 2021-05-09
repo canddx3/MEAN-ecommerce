@@ -43,19 +43,25 @@ module.exports = function(router) {
           if(err) throw err;
 
           if(!user) {
-          res.json({ success: false, message: 'User doesnt exist'});
+            res.json({ success: false, message: 'User doesnt exist'});
           } else if (user) {
-          
-          if(req.body.password) {
             const validPassword = user.comparePassword(req.body.password);
-          
+          // password blank errors out
+            //  } else {
+          //   res.json({ success: false, message: 'Empty password'});
+          //  }
           if (!validPassword) {
             res.json({ success: false, message: 'password invalid' });
           } else {
-           var token = jwt.sign({ firstname: user.firstname, lastname: user.lastname, email: user.email, address: user.address, phone: user.phone }, secret, { expiresIn: '24h'});
+           const token = jwt.sign({ 
+             firstname: user.firstname, 
+             lastname: user.lastname, 
+             email: user.email, 
+             address: user.address, 
+             phone: user.phone }, 
+             secret, { expiresIn: '24h'});
            res.json({ success: true, message: 'User authenticated!', token: token });
           }
-        }
       }
       });
     });
@@ -76,7 +82,7 @@ module.exports = function(router) {
       }
     })
 
-    router.post('/profile', function(req, res) {
+    router.post('/me', function(req, res) {
       res.send(req.decoded);
     });
 
