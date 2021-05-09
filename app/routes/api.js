@@ -5,6 +5,7 @@ const Mountainbikes   = require('../models/mountainbikes');
 
 module.exports = function(router) {
   // http://localhost:8080/api/user
+  // User signup
   router.post('/user', function(req, res) {
     const user = new User();
       user.firstname = req.body.firstname;
@@ -29,6 +30,26 @@ module.exports = function(router) {
           });    
        }
       });
+
+      // http://localhost:8080/api/login
+      // User Login
+      router.post('/login', function(req, res) {
+        User.findOne({ username: req.body.username}).select('email username password').exec(function(err, user) {
+          if(err) throw err;
+          if(!user) {
+            res.json({ success: false, message: 'User doesnt exist'});
+          } else if (user){
+            if(req.body.password) {
+            const validPassword = user.comparePassword(req.body.password);
+            } 
+              if (!validPassword) {
+                res.json({ success: false, message: 'password invalid' });
+              } else {
+                res.json({ success: true, message: 'User authenticated!'});
+              }
+          }
+        });
+     });
     return router;
   }
   // app.post("/user", async function (req, res) {
