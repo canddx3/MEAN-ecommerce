@@ -34,20 +34,22 @@ module.exports = function(router) {
       // http://localhost:8080/api/login
       // User Login
       router.post('/login', function(req, res) {
-        User.findOne({ username: req.body.username}).select('email username password').exec(function(err, user) {
+        User
+        .findOne({ username: req.body.username })
+        .select('firstname lastname email address phone username password')
+        .exec(function(err, user) {
           if(err) throw err;
-          if(!user) {
-            res.json({ success: false, message: 'User doesnt exist'});
-          } else if (user){
-            if(req.body.password) {
-            const validPassword = user.comparePassword(req.body.password);
-            } 
+
+            if(!user) {
+              res.json({ success: false, message: 'User doesnt exist'});
+            } else if (user) {
+                const validPassword = user.comparePassword(req.body.password);
               if (!validPassword) {
                 res.json({ success: false, message: 'password invalid' });
               } else {
                 res.json({ success: true, message: 'User authenticated!'});
               }
-          }
+            }
         });
      });
     return router;
