@@ -1,3 +1,3 @@
-angular.module('userApp', ['appRoutes', 'userCtrl', 'userServices'])
+angular.module('userApp', ['appRoutes', 'userController', 'userServices', 'mainController', 'authServices'])
 
 .config(function() {})
