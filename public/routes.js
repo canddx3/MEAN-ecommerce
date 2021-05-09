@@ -1,4 +1,3 @@
-console.log('TESTING ROUTES')
 angular.module('appRoutes', ['ngRoute'])
 
 .config(function($routeProvider, $locationProvider) {
@@ -16,8 +15,6 @@ angular.module('appRoutes', ['ngRoute'])
 
     .when('/login', {
         templateUrl: 'users/login.html',
-        controller: 'loginCtrl',
-        controllerAs: "login"
     })
 
     .otherwise({redirectTo: '/'});

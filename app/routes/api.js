@@ -2,9 +2,12 @@ const express         = require('express');
 const router          = express.Router();
 const User            = require('../models/user');
 const Mountainbikes   = require('../models/mountainbikes');
+const jwt             = require('jsonwebtoken');
+const secret          = 'password';
 
 module.exports = function(router) {
   // http://localhost:8080/api/user
+  // User signup
   router.post('/user', function(req, res) {
     const user = new User();
       user.firstname = req.body.firstname;
@@ -18,27 +21,68 @@ module.exports = function(router) {
             req.body.username == "" ||
             req.body.password == null ||
             req.body.password == "") {
-            res.send('Username and password were provided');
-       } else {
+            res.json({ success: false, message: 'Must enter all fields'});
+          } else {
           user.save(function(err) {
               if(err) {
-                res.send('Username or Email already exists!');
+                res.json({ success: false, message: 'Username or Email already exists!'});
               }else {
-                res.send('user created!');
+                res.json({ success: true, message: 'user created!'});
               }
           });    
        }
+    });
+
+    // http://localhost:8080/api/login
+    // User Login
+    router.post('/login', function(req, res) {
+      User
+        .findOne({ username: req.body.username })
+        .select('firstname lastname email address phone username password')
+        .exec(function(err, user) {
+          if(err) throw err;
+
+          if(!user) {
+          res.json({ success: false, message: 'User doesnt exist'});
+          } else if (user) {
+          
+          if(req.body.password) {
+            const validPassword = user.comparePassword(req.body.password);
+          
+          if (!validPassword) {
+            res.json({ success: false, message: 'password invalid' });
+          } else {
+           var token = jwt.sign({ firstname: user.firstname, lastname: user.lastname, email: user.email, address: user.address, phone: user.phone }, secret, { expiresIn: '24h'});
+           res.json({ success: true, message: 'User authenticated!', token: token });
+          }
+        }
+      }
       });
-    return router;
-  }
+    });
+
+    router.use(function(req, res, next) {
+      const token = req.body.token || req.body.query || req.headers['x-access-token'];
+      if(token) {
+        jwt.verify(token, secret, function(err, decoded) {
+          if (err) {
+          res.json({ success: false, message: 'Token invalid'});
+          } else {
+            req.decoded = decoded;
+            next();
+          }
+        });
+      } else {
+        res.json({ success: false, message: 'No token provided'});
+      }
+    })
+
+    router.post('/profile', function(req, res) {
+      res.send(req.decoded);
+    });
+
+  return router;
+}
   // app.post("/user", async function (req, res) {
-  //       user.firstname = userData.firstname
-  //       user.lastname  = userData.lastname
-  //       user.email  = userData.email
-  //       user.address  = userData.address
-  //       user.phone = userData.phone
-  //       user.username = userData.username
-  //       user.password = userData.password
   //   const userData = req.body;
   //   const user = new User(userData);
   //   try {
