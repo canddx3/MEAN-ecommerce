@@ -1,13 +1,19 @@
 angular.module("loginController", ["loginServices"])
 
-  .controller("loginCtrl", function (Auth, $timeout, $location) {
+  .controller("loginCtrl", function (Login, $timeout, $location) {
     const app = this;
+
+    if(Login.isLoggedIn()) {
+      console.log('User logged in');
+    } else {
+      console.log('not logged in');
+    }
 
     app.loginUser = function (loginData) {
       app.loading = true;
       app.errorMessage = false;
 
-      Auth.login(app.loginData).then(function (data) {
+      Login.login(app.loginData).then(function (data) {
         if (data.data.success) {
           app.loading = false;
           // creates successful messages
@@ -23,4 +29,12 @@ angular.module("loginController", ["loginServices"])
         }
       });
     };
+
+    app.logout = function() {
+      Login.logout();
+      $location.path('/logout');
+      $timeout(function(){
+        $location.path('/');
+      }, 2000);
+    }
   });

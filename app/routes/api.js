@@ -53,11 +53,33 @@ module.exports = function(router) {
           if (!validPassword) {
             res.json({ success: false, message: 'password invalid' });
           } else {
-           res.json({ success: true, message: 'User authenticated!' });
+            const token = jwt.sign({ firstname: user.firstname, lastname: user.lastname, email: user.email, address: user.address, phone: user.phone}, secret, { expiresIn: '24h'});
+            res.json({ success: true, message: 'User authenticated!', token: token });
           }
       }
       });
     });
+
+    router.use(function(req, res, next) {
+      const token = req.body.token || req.body.query || req.headers['x-access-token'];
+      if(token) {
+        jwt.verify(token, secret, function(err, decoded) {
+          if(err) {
+            res.json({ success: false, message: 'token invalid'});
+          } else {
+            req.decoded = decoded;
+            next();
+          }
+        });
+      } else {
+        res.json({ success: false, message: 'no token provided'});
+      }
+    });
+
+    router.post('/profile', function(req, res) {
+      res.send(req.decoded);
+    });
+
   return router;
 }
   // app.post("/user", async function (req, res) {
