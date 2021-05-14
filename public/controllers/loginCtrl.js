@@ -2,21 +2,22 @@ angular.module("loginController", ["loginServices"])
 
   .controller("loginCtrl", function (Login, $timeout, $location) {
     const app = this;
-// lesson 8 40 minutes add profile route
+
+
     if(Login.isLoggedIn()) {
-      console.log('User logged in');
+      app.isLoggedIn = true;
       Login.getUser().then(function(data) {
         console.log(data.data.firstname);
         app.userFirstName = data.data.firstname;
-        app.userLastName = data.data.LastName;
+        app.userLastName = data.data.lastname;
         app.userEmail = data.data.email;
-        app.userAddress = data.data.userAddress;
+        app.userAddress = data.data.address;
         app.userPhone = data.data.phone
       })
     } else {
-      console.log('not logged in');
+        app.isLoggedIn = false;
     }
-
+  
     app.loginUser = function (loginData) {
       app.loading = true;
       app.errorMessage = false;
