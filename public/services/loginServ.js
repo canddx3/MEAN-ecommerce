@@ -6,7 +6,6 @@ angular.module('loginServices', [])
     // Login.create(loginData)
     loginFactory.login = function(loginData) {
         return $http.post('/api/login', loginData).then(function(data) {
-            console.log(data.data.token);
             LoginToken.setToken(data.data.token);
             return data;
         })
@@ -21,7 +20,15 @@ angular.module('loginServices', [])
         }
     };
 
-    // Login.logOut()
+    loginFactory.getUser = function() {
+        if(LoginToken.getToken) {
+            return $http.post('/api/profile');
+        } else {
+            $q.reject({ Message: "user has no token"})
+        }
+      }
+
+    // Login.logout()
     loginFactory.logout = function() {
         LoginToken.setToken();
     };
@@ -35,16 +42,31 @@ angular.module('loginServices', [])
     // loginToken.settoken(token)
     loginTokenFactory.setToken = function(token) {
         if(token) {
-            $window.localstorage.setItem('token', token);
+            $window.localStorage.setItem('token', token);
         } else {
-            $window.localstorage.removeItem('token');
+            $window.localStorage.removeItem('token');
         }
     };
 
     // logintoken.gettoken(token)
     loginTokenFactory.getToken = function() {
-        return $window.localstorage.getItem(token);
+        //  getItem is coming back undefined
+        return $window.localStorage.getItem('token');
     };
+    
     return loginTokenFactory;
   })
+
+  .factory('LoginInterceptors', function(LoginToken) {
+      const loginInterceptorsFactory = {};
+
+      loginInterceptorsFactory.request = function(config) {
+          const token = LoginToken.getToken();
+          if(token) 
+          config.headers['x-access-token'] = token;
+          return config;
+      };
+
+      return loginInterceptorsFactory
+  });
 

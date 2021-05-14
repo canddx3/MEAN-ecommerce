@@ -5,6 +5,7 @@ angular.module("loginController", ["loginServices"])
 
     if(Login.isLoggedIn()) {
       console.log('User logged in');
+      Login.getUser()
     } else {
       console.log('not logged in');
     }
@@ -17,9 +18,9 @@ angular.module("loginController", ["loginServices"])
         if (data.data.success) {
           app.loading = false;
           // creates successful messages
-          app.successMessage = data.data.message;
+          app.successMessage = data.data.message + '...redirecting';
           // redirect to home page after delay
-          $timeout(function () {
+          $timeout(function() {
             $location.path("/");
           }, 2000);
         } else {
@@ -33,8 +34,8 @@ angular.module("loginController", ["loginServices"])
     app.logout = function() {
       Login.logout();
       $location.path('/logout');
-      $timeout(function(){
-        $location.path('/');
+      $timeout(function() {
+        $location.path("/");
       }, 2000);
-    }
+    };
   });
