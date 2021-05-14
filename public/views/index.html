@@ -48,7 +48,7 @@
               <a class="nav-link" href='/login'>Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href='/logout' ng-click='login.logout();'>Logout</a>
+              <a class="nav-link" href='/logout' ng-click='main.logoutUser();'>Logout</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href='/' id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,6 +59,7 @@
                 <li><a class="dropdown-item" href='/price'>Price</a></li>
               </ul>
             </li>
+            <li>Hello <a href='#'> {{ main.userFirstName }} </a></li>
           </ul>
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

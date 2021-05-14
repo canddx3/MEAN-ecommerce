@@ -2,10 +2,17 @@ angular.module("loginController", ["loginServices"])
 
   .controller("loginCtrl", function (Login, $timeout, $location) {
     const app = this;
-
+// lesson 8 40 minutes add profile route
     if(Login.isLoggedIn()) {
       console.log('User logged in');
-      Login.getUser()
+      Login.getUser().then(function(data) {
+        console.log(data.data.firstname);
+        app.userFirstName = data.data.firstname;
+        app.userLastName = data.data.LastName;
+        app.userEmail = data.data.email;
+        app.userAddress = data.data.userAddress;
+        app.userPhone = data.data.phone
+      })
     } else {
       console.log('not logged in');
     }
@@ -31,11 +38,11 @@ angular.module("loginController", ["loginServices"])
       });
     };
 
-    app.logout = function() {
+    app.logoutUser = function() {
       Login.logout();
       $location.path('/logout');
       $timeout(function() {
-        $location.path("/");
+        $location.path("/login");
       }, 2000);
     };
   });
